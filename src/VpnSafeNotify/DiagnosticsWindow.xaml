@@ -1,0 +1,35 @@
+<Window x:Class="VpnSafeNotify.DiagnosticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="VPN Safe Notify — Diagnostics" Width="820" Height="700" MinWidth="600" MinHeight="450"
+        WindowStartupLocation="CenterOwner" Background="{StaticResource WindowBackground}"
+        Foreground="{StaticResource PrimaryText}" FontFamily="Segoe UI">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="26">
+            <TextBlock Text="Detection diagnostics" FontSize="23" FontWeight="SemiBold" />
+            <TextBlock Text="Current local evidence and reasons. Addresses, proxy URLs, credentials, and browsing history are not shown or saved." Foreground="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,8,0,18" />
+            <Border Background="{StaticResource CardBackground}" CornerRadius="10" Padding="16" Margin="0,0,0,18">
+                <TextBlock Text="{Binding DiagnosticsText}" TextWrapping="Wrap" FontSize="13" LineHeight="20" AutomationProperties.AutomationId="DetectionReasons" />
+            </Border>
+            <TextBlock Text="Adapters" FontSize="17" FontWeight="SemiBold" Margin="0,0,0,12" />
+            <ItemsControl ItemsSource="{Binding DiagnosticAdapters}" AutomationProperties.AutomationId="DiagnosticAdapters">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource CardBackground}" CornerRadius="10" Padding="15" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding Description}" Foreground="{StaticResource SecondaryText}" TextWrapping="Wrap" FontSize="12" Margin="0,3,0,8" />
+                                <TextBlock FontSize="12" Foreground="{StaticResource SecondaryText}" TextWrapping="Wrap">
+                                    <Run Text="{Binding Type}" /><Run Text=" · " /><Run Text="{Binding Status}" />
+                                    <Run Text=" · Usable addresses: " /><Run Text="{Binding UsableAddressCount}" />
+                                    <Run Text=" · Forwarding routes: " /><Run Text="{Binding RelevantRouteCount}" />
+                                </TextBlock>
+                                <TextBlock Text="{Binding Reason}" TextWrapping="Wrap" FontSize="13" Margin="0,8,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

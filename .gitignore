@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+.vs/
+output/
+*.user
+*.suo
+/test
+**/settings.json
+**/settings.json.*
+**/vpn-safe-smoke-*/
+**/.net/
+.env
+.env.*

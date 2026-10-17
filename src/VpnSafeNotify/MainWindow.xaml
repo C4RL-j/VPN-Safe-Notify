@@ -1,0 +1,79 @@
+<Window x:Class="VpnSafeNotify.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="VPN Safe Notify" Width="580" Height="730" MinWidth="530" MinHeight="560"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource WindowBackground}"
+        FontFamily="Segoe UI" Foreground="{StaticResource PrimaryText}">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Margin="24,10,24,14">
+            <Button DockPanel.Dock="Right" Content="Settings" Background="#2B3952" Foreground="{StaticResource PrimaryText}" Padding="13,8" FontSize="13" Click="Settings_Click" Margin="10,0,0,0" AutomationProperties.AutomationId="SettingsOpen" />
+            <Button DockPanel.Dock="Right" Content="Diagnostics" Background="#2B3952" Foreground="{StaticResource PrimaryText}" Padding="13,8" FontSize="13" Click="Diagnostics_Click" Margin="10,0,0,0" AutomationProperties.AutomationId="DiagnosticsOpen" />
+            <TextBlock Text="Close to keep running in the tray. Use the tray menu to exit." Foreground="#7F8CA7" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Center" />
+        </DockPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="24,18,24,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                <Border Width="44" Height="48" Background="#243756" CornerRadius="12" Margin="0,0,14,0">
+                    <Viewbox Width="25" Height="29">
+                        <Path Fill="#91B8FF" Data="M 12,0 L 24,5 L 24,15 C 24,23 18,28 12,31 C 6,28 0,23 0,15 L 0,5 Z M 6,14 L 10,18 L 18,9 L 20,11 L 10,22 L 4,16 Z" />
+                    </Viewbox>
+                </Border>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="VPN Safe Notify" FontSize="24" FontWeight="SemiBold" />
+                    <TextBlock Text="A quiet reminder to check your VPN." Foreground="{StaticResource SecondaryText}" FontSize="13" Margin="0,3,0,0" />
+                </StackPanel>
+            </StackPanel>
+            <Border Grid.Row="1" Background="{StaticResource CardBackground}" BorderBrush="{Binding SummaryBrush}" BorderThickness="1" CornerRadius="12" Padding="17,13" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="{Binding Summary}" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding SummaryDetail}" Foreground="{StaticResource SecondaryText}" TextWrapping="Wrap" FontSize="13" LineHeight="20" Margin="0,7,0,0" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" Background="{StaticResource CardBackground}" CornerRadius="12" Padding="17,12" Margin="0,0,0,14">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="Internet" FontSize="14" />
+                        <TextBlock Grid.Column="1" Text="{Binding InternetStatus}" Foreground="{Binding InternetBrush}" FontSize="14" FontWeight="SemiBold" AutomationProperties.AutomationId="InternetStatus" />
+                    </Grid>
+                    <TextBlock Text="{Binding InternetDetail}" Foreground="{StaticResource SecondaryText}" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,14" />
+                    <Border Height="1" Background="#2B3447" Margin="0,0,0,14" />
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="VPN" FontSize="14" />
+                        <TextBlock Grid.Column="1" Text="{Binding VpnStatus}" Foreground="{Binding VpnBrush}" FontSize="14" FontWeight="SemiBold" AutomationProperties.AutomationId="VpnStatus" />
+                    </Grid>
+                    <TextBlock Text="{Binding VpnDetail}" Foreground="{StaticResource SecondaryText}" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,14" />
+                    <Border Height="1" Background="#2B3447" Margin="0,0,0,14" />
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="Monitoring" FontSize="14" />
+                        <TextBlock Grid.Column="1" Text="{Binding MonitoringStatus}" Foreground="{Binding MonitoringBrush}" FontSize="14" FontWeight="SemiBold" AutomationProperties.AutomationId="MonitoringStatus" />
+                    </Grid>
+                    <TextBlock Text="{Binding LastChecked}" Foreground="{StaticResource SecondaryText}" FontSize="12" TextWrapping="Wrap" Margin="0,6,0,0" />
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="3" Margin="0,0,0,19">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                <CheckBox x:Name="NotificationsCheckBox" Content="Desktop notifications" IsChecked="{Binding NotificationsEnabled, Mode=OneWay}" VerticalAlignment="Center" Click="Notifications_Click" AutomationProperties.AutomationId="NotificationsToggle" />
+                <Button Grid.Column="1" Content="{Binding ToggleButtonText}" IsEnabled="{Binding CanToggle}" Click="Toggle_Click" MinWidth="168" AutomationProperties.AutomationId="MonitoringToggle" />
+                <CheckBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="WarnWhenVpnUnverifiedCheckBox" Content="Also warn when VPN status is unverified" IsChecked="{Binding WarnWhenVpnUnverified, Mode=OneWay}" Margin="0,12,0,0" Click="WarnWhenVpnUnverified_Click" AutomationProperties.AutomationId="WarnWhenVpnUnverifiedToggle" />
+            </Grid>
+            <StackPanel Grid.Row="4">
+                <TextBlock Text="Preview effects · network unchanged" Foreground="{StaticResource SecondaryText}" FontSize="12" Margin="0,0,0,7" />
+                <WrapPanel>
+                    <Button Content="Preview Red" Background="#442C36" Foreground="#FFB2B8" Padding="13,8" FontSize="13" Click="PreviewRed_Click" Margin="0,0,9,0" AutomationProperties.AutomationId="PreviewRed" />
+                    <Button Content="Preview Green" Background="#243D38" Foreground="#8CE4C4" Padding="13,8" FontSize="13" Click="PreviewGreen_Click" AutomationProperties.AutomationId="PreviewGreen" />
+                </WrapPanel>
+                <TextBlock Text="A connected tunnel does not confirm that all internet traffic uses it. NetMod proxy-only modes may remain unverified." Foreground="{StaticResource SecondaryText}" FontSize="12" TextWrapping="Wrap" LineHeight="18" Margin="0,12,0,0" />
+                <TextBlock Text="{Binding SettingsMessage}" Foreground="#FFC675" FontSize="12" TextWrapping="Wrap" Margin="0,7,0,0" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+    </DockPanel>
+</Window>
